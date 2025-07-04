@@ -55,7 +55,7 @@ public class BlogController {
     }
 
     @GetMapping("/{id}/delete")
-    public void deleteBlogPost(Long id) {
+    public void deleteBlogPost(@PathVariable Long id) {
         // Logic to delete a specific blog post by ID
     }
 }
