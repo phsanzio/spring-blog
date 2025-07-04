@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/blog")
@@ -22,7 +21,6 @@ public class BlogController {
     @PostMapping
     // Placeholder for future methods
     public void createBlogPost(@RequestBody PostRequestDTO data) {
-        // Logic to create a new blog post
         Post post = new Post(data);
         postRepository.save(post);
         return;
@@ -32,7 +30,6 @@ public class BlogController {
 
     @GetMapping
     public List<PostResponseDTO> getBlogPosts() {
-        // Logic to retrieve all blog posts
         List<PostResponseDTO> posts = postRepository.findAll().stream().map(PostResponseDTO::new).toList();
         return posts;
     }
@@ -56,6 +53,8 @@ public class BlogController {
 
     @GetMapping("/{id}/delete")
     public void deleteBlogPost(@PathVariable Long id) {
-        // Logic to delete a specific blog post by ID
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
+        postRepository.delete(post);
     }
 }
