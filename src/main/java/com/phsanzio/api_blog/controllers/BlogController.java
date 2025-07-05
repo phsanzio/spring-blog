@@ -3,8 +3,11 @@ package com.phsanzio.api_blog.controllers;
 import com.phsanzio.api_blog.domain.model.Post;
 import com.phsanzio.api_blog.domain.model.PostRequestDTO;
 import com.phsanzio.api_blog.domain.model.PostResponseDTO;
-import com.phsanzio.api_blog.domain.repository.PostRepository;
+import com.phsanzio.api_blog.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -13,48 +16,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/blog")
 public class BlogController {
-    // This class will handle blog-related requests
-    // For example, methods to create, read, update, and delete blog posts will be added here in the future
+
     @Autowired
-    private PostRepository postRepository;
+    private PostService postService;
 
     @PostMapping
-    // Placeholder for future methods
-    public void createBlogPost(@RequestBody PostRequestDTO data) {
-        Post post = new Post(data);
-        postRepository.save(post);
-        return;
-        // Return response or status
-
+    public ResponseEntity<PostResponseDTO> createBlogPost(@Valid @RequestBody PostRequestDTO data) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.createBlogPost(data));
     }
 
     @GetMapping
-    public List<PostResponseDTO> getBlogPosts() {
-        List<PostResponseDTO> posts = postRepository.findAll().stream().map(PostResponseDTO::new).toList();
-        return posts;
+    public ResponseEntity<List<PostResponseDTO>> getBlogPosts() {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getAllBlogPosts());
     }
 
     @GetMapping("/{id}")
-    public Post getBlogPostById(@PathVariable Long id) {
-        return postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
+    public ResponseEntity<PostResponseDTO> getBlogPostById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.getBlogPostById(id));
     }
 
-    @PostMapping("/{id}")
-    public void updateBlogPost(@PathVariable Long id, @RequestBody PostRequestDTO data) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
-        post.setTitle(data.title());
-        post.setContent(data.content());
-        post.setAuthor(data.author());
-        post.setUpdatedAt(LocalDateTime.now());
-        postRepository.save(post);
+    @PutMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> updateBlogPost(@PathVariable Long id, @Valid @RequestBody PostRequestDTO data) {
+        return ResponseEntity.status(HttpStatus.OK).body(postService.updateBlogPost(id, data));
     }
 
-    @GetMapping("/{id}/delete")
-    public void deleteBlogPost(@PathVariable Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found with id: " + id));
-        postRepository.delete(post);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBlogPost(@PathVariable Long id) {
+        postService.deleteBlogPost(id);
+        return ResponseEntity.noContent().build();
     }
 }
