@@ -1,8 +1,8 @@
 package com.phsanzio.api_blog.service;
 
-import com.phsanzio.api_blog.domain.model.Post;
-import com.phsanzio.api_blog.domain.model.PostRequestDTO;
-import com.phsanzio.api_blog.domain.model.PostResponseDTO;
+import com.phsanzio.api_blog.domain.model.post.Post;
+import com.phsanzio.api_blog.domain.model.post.PostRequestDTO;
+import com.phsanzio.api_blog.domain.model.post.PostResponseDTO;
 import com.phsanzio.api_blog.domain.repository.PostRepository;
 import com.phsanzio.api_blog.exceptions.PostNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.phsanzio.api_blog.domain.model;
+package com.phsanzio.api_blog.domain.model.post;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
