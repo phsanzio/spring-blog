@@ -2,7 +2,7 @@ package com.phsanzio.api_blog.controllers;
 
 import com.phsanzio.api_blog.domain.model.post.PostRequestDTO;
 import com.phsanzio.api_blog.domain.model.post.PostResponseDTO;
-import com.phsanzio.api_blog.service.PostService;
+import com.phsanzio.api_blog.services.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
