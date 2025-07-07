@@ -29,17 +29,17 @@ public class BlogController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDTO> getBlogPostById(@PathVariable Long id) {
+    public ResponseEntity<PostResponseDTO> getBlogPostById(@PathVariable String id) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getBlogPostById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PostResponseDTO> updateBlogPost(@PathVariable Long id, @Valid @RequestBody PostRequestDTO data) {
+    public ResponseEntity<PostResponseDTO> updateBlogPost(@PathVariable String id, @Valid @RequestBody PostRequestDTO data) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.updateBlogPost(id, data));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBlogPost(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBlogPost(@PathVariable String id) {
         postService.deleteBlogPost(id);
         return ResponseEntity.noContent().build();
     }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public record PostResponseDTO (
-        Long id,
+        String id,
         String title,
         String content,
         String author,

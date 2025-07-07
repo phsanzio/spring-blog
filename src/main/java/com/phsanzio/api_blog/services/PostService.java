@@ -24,13 +24,13 @@ public class PostService {
         return new PostResponseDTO(post);
     }
 
-    public PostResponseDTO getBlogPostById(Long id) {
+    public PostResponseDTO getBlogPostById(String id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
         return new PostResponseDTO(post);
     }
 
-    public PostResponseDTO updateBlogPost(Long id, PostRequestDTO data) {
+    public PostResponseDTO updateBlogPost(String id, PostRequestDTO data) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
         post.setTitle(data.title());
@@ -41,7 +41,7 @@ public class PostService {
         return new PostResponseDTO(post);
     }
 
-    public void deleteBlogPost(Long id) {
+    public void deleteBlogPost(String id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
         postRepository.delete(post);
