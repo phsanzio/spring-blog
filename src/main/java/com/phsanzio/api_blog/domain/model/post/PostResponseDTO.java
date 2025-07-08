@@ -14,7 +14,7 @@ public record PostResponseDTO (
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime updatedAt) {
     public PostResponseDTO(Post post) {
-        this(post.getId(), post.getTitle(), post.getContent(), post.getAuthor(),
+        this(String.valueOf(post.getId()), post.getTitle(), post.getContent(), post.getAuthor(),
              post.getCreatedAt(), post.getUpdatedAt());
     }
 }

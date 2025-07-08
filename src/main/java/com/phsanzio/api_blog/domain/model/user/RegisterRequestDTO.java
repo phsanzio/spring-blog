@@ -1,6 +1,7 @@
 package com.phsanzio.api_blog.domain.model.user;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public record RegisterRequestDTO (@NotBlank String username, @NotBlank String password, @NotBlank UserRole role) {
+public record RegisterRequestDTO (@NotBlank String username, @NotBlank String password, @NotNull UserRole role) {
 }

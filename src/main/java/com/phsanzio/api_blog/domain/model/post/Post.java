@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Table(name = "posts")
 @Entity(name = "posts")
@@ -17,7 +18,7 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    private UUID id;
     private String title;
     private String content;
     private String author;
