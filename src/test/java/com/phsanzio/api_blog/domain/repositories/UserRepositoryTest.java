@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
 
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -28,8 +30,16 @@ class UserRepositoryTest {
     void findByLoginTest() {
         LoginRequestDTO data = new LoginRequestDTO("phsanzio", "pedro2306");
         User user = this.createUser(data);
-        UserDetails result = this.userRepository.findByLogin(user.getLogin());
-        assertThat(result).isNotNull();
+        Optional<UserDetails> result = Optional.ofNullable(this.userRepository.findByLogin(user.getLogin()));
+        assertThat(result.isPresent()).isTrue();
+        assertThat(result.get().getUsername()).isEqualTo(user.getLogin());
+    }
+
+    @Test
+    @DisplayName("findByLogin should not return a user when it not exists")
+    void findByLoginTest2() {
+        Optional<UserDetails> result = Optional.ofNullable(this.userRepository.findByLogin("null"));
+        assertThat(result.isEmpty()).isTrue();
     }
 
     private User createUser(LoginRequestDTO data) {
