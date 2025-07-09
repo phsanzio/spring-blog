@@ -5,12 +5,14 @@ import com.phsanzio.api_blog.domain.model.post.PostRequestDTO;
 import com.phsanzio.api_blog.domain.model.post.PostResponseDTO;
 import com.phsanzio.api_blog.domain.repositories.PostRepository;
 import com.phsanzio.api_blog.exceptions.PostNotFoundException;
+import com.phsanzio.api_blog.exceptions.UserNotAllowedToEdit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PostService {
@@ -33,12 +35,16 @@ public class PostService {
     public PostResponseDTO updateBlogPost(String id, PostRequestDTO data) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id));
-        post.setTitle(data.title());
-        post.setContent(data.content());
-        post.setAuthor(data.author());
-        post.setUpdatedAt(LocalDateTime.now());
-        postRepository.save(post);
-        return new PostResponseDTO(post);
+        if (Objects.equals(post.getAuthor(), data.author())) {
+            post.setTitle(data.title());
+            post.setContent(data.content());
+            post.setAuthor(data.author());
+            post.setUpdatedAt(LocalDateTime.now());
+            postRepository.save(post);
+            return new PostResponseDTO(post);
+        } else {
+            throw new UserNotAllowedToEdit(data.author());
+        }
     }
 
     public void deleteBlogPost(String id) {
