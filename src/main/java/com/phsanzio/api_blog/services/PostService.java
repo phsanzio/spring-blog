@@ -4,8 +4,10 @@ import com.phsanzio.api_blog.domain.model.post.Post;
 import com.phsanzio.api_blog.domain.model.post.PostRequestDTO;
 import com.phsanzio.api_blog.domain.model.post.PostResponseDTO;
 import com.phsanzio.api_blog.domain.repositories.PostRepository;
+import com.phsanzio.api_blog.exceptions.NoBlogPostFoundException;
+import com.phsanzio.api_blog.exceptions.PostNotCreatedException;
 import com.phsanzio.api_blog.exceptions.PostNotFoundException;
-import com.phsanzio.api_blog.exceptions.UserNotAllowedToEdit;
+import com.phsanzio.api_blog.exceptions.UserNotAllowedToEditException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,12 @@ public class PostService {
 
     public PostResponseDTO createBlogPost(PostRequestDTO data) {
         Post post = new Post(data);
-        postRepository.save(post);
-        return new PostResponseDTO(post);
+        try {
+            postRepository.save(post);
+            return new PostResponseDTO(post);
+        } catch (Exception ex) {
+            throw new PostNotCreatedException(ex.getMessage());
+        }
     }
 
     public PostResponseDTO getBlogPostById(String id) {
@@ -43,7 +49,7 @@ public class PostService {
             postRepository.save(post);
             return new PostResponseDTO(post);
         } else {
-            throw new UserNotAllowedToEdit(data.author());
+            throw new UserNotAllowedToEditException(data.author());
         }
     }
 
@@ -54,7 +60,11 @@ public class PostService {
     }
 
     public List<PostResponseDTO> getAllBlogPosts() {
-        return postRepository.findAll(Sort.by("createdAt")).stream().map(PostResponseDTO::new).toList();
+        try {
+            return postRepository.findAll(Sort.by("createdAt")).stream().map(PostResponseDTO::new).toList();
+        } catch (Exception ex) {
+            throw new NoBlogPostFoundException(ex.getMessage());
+        }
     }
 
 }
