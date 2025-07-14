@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS users (
     role VARCHAR(20) NOT NULL
 );
 
-insert into users (login, password, role) values ('phsanzio', 'pedro2306', 'ADMIN')
+insert into users (login, password, role) values ('phsanzio', '$2a$10$MHCR0AX1Iwh1YTCprvil7u6kCaml7cg6aSvYOi7T4oQV.emYOjh0G', 'ADMIN')

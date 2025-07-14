@@ -18,26 +18,31 @@ public class BlogController {
     @Autowired
     private PostService postService;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<PostResponseDTO> createBlogPost(@Valid @RequestBody PostRequestDTO data) {
         return ResponseEntity.status(HttpStatus.CREATED).body(postService.createBlogPost(data));
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public ResponseEntity<List<PostResponseDTO>> getBlogPosts() {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getAllBlogPosts());
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/{id}")
     public ResponseEntity<PostResponseDTO> getBlogPostById(@PathVariable String id) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.getBlogPostById(id));
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/{id}")
     public ResponseEntity<PostResponseDTO> updateBlogPost(@PathVariable String id, @Valid @RequestBody PostRequestDTO data) {
         return ResponseEntity.status(HttpStatus.OK).body(postService.updateBlogPost(id, data));
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBlogPost(@PathVariable String id) {
         postService.deleteBlogPost(id);
